@@ -1,0 +1,7 @@
+type DAO @entity(immutable: false) {
+  id: Bytes!
+  address: Bytes! # address
+  parentAddress: Bytes # address
+  name: String
+  hierarchy: [DAO!]!
+}

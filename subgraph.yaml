@@ -1,0 +1,25 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: FractalRegistry
+    network: goerli
+    source:
+      address: "0xc2427b5D77Bd319511672095E9a5A845AA80f979"
+      abi: FractalRegistry
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - DAO
+      abis:
+        - name: FractalRegistry
+          file: ./abis/FractalRegistry.json
+      eventHandlers:
+        - event: FractalNameUpdated(indexed address,string)
+          handler: handleFractalNameUpdated
+        - event: FractalSubDAODeclared(indexed address,indexed address)
+          handler: handleFractalSubDAODeclared
+      file: ./src/fractal-registry.ts
