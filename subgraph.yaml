@@ -8,6 +8,7 @@ dataSources:
     source:
       address: "0xc2427b5D77Bd319511672095E9a5A845AA80f979"
       abi: FractalRegistry
+      startBlock: 8288290
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
