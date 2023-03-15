@@ -1,4 +1,4 @@
-import { Bytes, Value } from "@graphprotocol/graph-ts";
+import { Bytes } from "@graphprotocol/graph-ts";
 import {
   FractalNameUpdated as FractalNameUpdatedEvent,
   FractalSubDAODeclared as FractalSubDAODeclaredEvent
