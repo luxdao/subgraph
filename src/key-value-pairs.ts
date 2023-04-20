@@ -1,4 +1,4 @@
-import { ipfs, json, ByteArray } from '@graphprotocol/graph-ts';
+import { crypto, ipfs, json, ByteArray, JSONValue, Bytes } from '@graphprotocol/graph-ts';
 import { ValueUpdated as ValueUpdatedEvent } from '../generated/KeyValuePairs/KeyValuePairs';
 import {
   DAO,
@@ -15,10 +15,12 @@ export function handleValueUpdated(event: ValueUpdatedEvent): void {
       if (proposalTemplatesConfigFile) {
         let proposalTemplatesJSON = json.try_fromBytes(proposalTemplatesConfigFile);
         if (proposalTemplatesJSON && proposalTemplatesJSON.isOk) {
-          let proposalTemplatesEntitiesIds = proposalTemplatesJSON.value
+          let proposalTemplatesEntitiesIds: Bytes[] = proposalTemplatesJSON.value
             .toArray()
-            .map(proposalTemplateJSON => {
-              let proposalTemplate = new ProposalTemplate(event.transaction.hash);
+            .map<Bytes>((proposalTemplateJSON, proposalTemplateIndex) => {
+              let proposalTemplate = new ProposalTemplate(
+                Bytes.fromByteArray(crypto.keccak256(Bytes.fromI32(proposalTemplateIndex)))
+              );
               let proposalTemplateJSONObject = proposalTemplateJSON.toObject();
 
               let title = proposalTemplateJSONObject.get('title');
@@ -36,15 +38,17 @@ export function handleValueUpdated(event: ValueUpdatedEvent): void {
               if (transactions) {
                 let transactionEntitiesIds = transactions
                   .toArray()
-                  .map((transactionJSON, index) => {
+                  .map<Bytes>((transactionJSON: JSONValue, transactionIndex) => {
                     let transaction = new ProposalTemplateTransaction(
-                      event.transaction.hash.concatI32(index)
+                      Bytes.fromByteArray(crypto.keccak256(Bytes.fromI32(transactionIndex)))
                     );
                     let transactionJSONObject = transactionJSON.toObject();
 
                     let targetAddress = transactionJSONObject.get('targetAddress');
                     if (targetAddress) {
-                      transaction.targetAddress = ByteArray.fromHexString(targetAddress.toString());
+                      transaction.targetAddress = Bytes.fromByteArray(
+                        ByteArray.fromHexString(targetAddress.toString())
+                      );
                     }
 
                     let transactionEthValue = transactionJSONObject.get('ethValue');
@@ -64,9 +68,9 @@ export function handleValueUpdated(event: ValueUpdatedEvent): void {
                     if (parameters) {
                       let parametersEntitiesIds = parameters
                         .toArray()
-                        .map((parameterJSON, parameterIndex) => {
+                        .map<Bytes>((parameterJSON, parameterIndex) => {
                           let parameter = new ProposalTemplateTransactionParameter(
-                            event.block.hash.concatI32(index).concatI32(parameterIndex)
+                            Bytes.fromByteArray(crypto.keccak256(Bytes.fromI32(parameterIndex)))
                           );
                           let parameterJSONObject = parameterJSON.toObject();
 
@@ -102,6 +106,7 @@ export function handleValueUpdated(event: ValueUpdatedEvent): void {
               proposalTemplate.save();
               return proposalTemplate.id;
             });
+
           dao.proposalTemplates = proposalTemplatesEntitiesIds;
         }
       }
