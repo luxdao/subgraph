@@ -4,4 +4,27 @@ type DAO @entity(immutable: false) {
   parentAddress: Bytes # address
   name: String
   hierarchy: [DAO!]!
+  proposalTemplates: [ProposalTemplate!]!
+}
+
+type ProposalTemplate @entity(immutable: true) {
+  id: Bytes!
+  title: String!
+  description: String
+  transactions: [ProposalTemplateTransaction!]!
+}
+
+type ProposalTemplateTransaction @entity(immutable: true) {
+  id: Bytes!
+  targetAddress: Bytes! #address
+  ethValue: String
+  functionName: String!
+  parameters: [ProposalTemplateTransactionParameter!]!
+}
+
+type ProposalTemplateTransactionParameter @entity(immutable: true) {
+  id: Bytes!
+  signature: String!
+  label: String
+  value: String
 }
