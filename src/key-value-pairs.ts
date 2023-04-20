@@ -40,14 +40,14 @@ export function handleValueUpdated(event: ValueUpdatedEvent): void {
                     let transaction = new ProposalTemplateTransaction(
                       event.transaction.hash.concatI32(index)
                     );
-                    let transactionJSONOjbect = transactionJSON.toObject();
+                    let transactionJSONObject = transactionJSON.toObject();
 
-                    let targetAddress = transactionJSONOjbect.get('targetAddress');
+                    let targetAddress = transactionJSONObject.get('targetAddress');
                     if (targetAddress) {
                       transaction.targetAddress = ByteArray.fromHexString(targetAddress.toString());
                     }
 
-                    let transactionEthValue = transactionJSONOjbect.get('ethValue');
+                    let transactionEthValue = transactionJSONObject.get('ethValue');
                     if (transactionEthValue) {
                       let ethValue = transactionEthValue.toObject().get('value');
                       if (ethValue) {
@@ -55,12 +55,12 @@ export function handleValueUpdated(event: ValueUpdatedEvent): void {
                       }
                     }
 
-                    let functionName = transactionJSONOjbect.get('functionName');
+                    let functionName = transactionJSONObject.get('functionName');
                     if (functionName) {
                       transaction.functionName = functionName.toString();
                     }
 
-                    let parameters = transactionJSONOjbect.get('parameters');
+                    let parameters = transactionJSONObject.get('parameters');
                     if (parameters) {
                       let parametersEntitiesIds = parameters
                         .toArray()
