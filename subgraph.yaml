@@ -35,7 +35,9 @@ dataSources:
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - ValueUpdated
+        - ProposalTemplate
+        - ProposalTemplateTransaction
+        - ProposalTemplateTransactionParameter
       abis:
         - name: KeyValuePairs
           file: ./abis/KeyValuePairs.json
