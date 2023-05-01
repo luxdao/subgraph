@@ -11,6 +11,7 @@ const loadOrCreateDAO = (address: Bytes): DAO => {
     dao = new DAO(address);
     dao.address = address; // But also keep address field on DAO entity in case we would want to use something else as ID
     dao.hierarchy = [];
+    dao.proposalTemplates = [];
   }
 
   return dao;
