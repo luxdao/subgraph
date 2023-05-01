@@ -1,14 +1,18 @@
 {
-  "name": "fractal-test",
+  "name": "fractal-subgraph",
   "license": "UNLICENSED",
   "version": "0.0.4",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ fractal-test",
-    "create-local": "graph create --node http://localhost:8020/ fractal-test",
-    "remove-local": "graph remove --node http://localhost:8020/ fractal-test",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fractal-test",
+    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ fractal",
+    "create-local": "graph create --node http://localhost:8020/ fractal",
+    "remove-local": "graph remove --node http://localhost:8020/ fractal",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fractal",
+    "deploy:test": "graph deploy --node https://api.studio.thegraph.com/deploy/ fractal-test",
+    "create-local:test": "graph create --node http://localhost:8020/ fractal-test",
+    "remove-local:test": "graph remove --node http://localhost:8020/ fractal-test",
+    "deploy-local:test": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fractal-test",
     "test": "graph test",
     "lint": "eslint src/",
     "lint:fix": "eslit src/ --fix"
