@@ -8,7 +8,7 @@ import {
 } from '../generated/schema';
 
 export function handleValueUpdated(event: ValueUpdatedEvent): void {
-  if (event.params.key === 'proposalTemplates') {
+  if (event.params.key == 'proposalTemplates') {
     let dao = DAO.load(event.params.theAddress);
     if (dao) {
       log.info('Processing proposal templates for DAO: {}, the IPFS hash is: {}', [
