@@ -1,4 +1,4 @@
-import { crypto, ipfs, json, ByteArray, JSONValue, Bytes } from '@graphprotocol/graph-ts';
+import { crypto, ipfs, json, ByteArray, JSONValue, Bytes, log } from '@graphprotocol/graph-ts';
 import { ValueUpdated as ValueUpdatedEvent } from '../generated/KeyValuePairs/KeyValuePairs';
 import {
   DAO,
@@ -11,6 +11,10 @@ export function handleValueUpdated(event: ValueUpdatedEvent): void {
   if (event.params.key === 'proposalTemplates') {
     let dao = DAO.load(event.params.theAddress);
     if (dao) {
+      log.info('Processing proposal templates for DAO: {}, the IPFS hash is: {}', [
+        event.params.theAddress.toString(),
+        event.params.value,
+      ]);
       let proposalTemplatesConfigFile = ipfs.cat(event.params.value);
       if (proposalTemplatesConfigFile) {
         let proposalTemplatesJSON = json.try_fromBytes(proposalTemplatesConfigFile);
@@ -108,8 +112,16 @@ export function handleValueUpdated(event: ValueUpdatedEvent): void {
             });
 
           dao.proposalTemplates = proposalTemplatesEntitiesIds;
+        } else {
+          log.error('Failed to parse proposal templates JSON configuration: {}', [
+            proposalTemplatesJSON.error.toString(),
+          ]);
         }
+      } else {
+        log.error('JSON configuration is not found through IPFS hash: {}', [event.params.value]);
       }
     }
+  } else {
+    log.warning('Unkown key: {}', [event.params.key]);
   }
 }
