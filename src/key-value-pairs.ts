@@ -1,4 +1,4 @@
-import { crypto, ipfs, json, ByteArray, JSONValue, Bytes, log } from '@graphprotocol/graph-ts';
+import { ipfs, json, ByteArray, Bytes, log } from '@graphprotocol/graph-ts';
 import { ValueUpdated as ValueUpdatedEvent } from '../generated/KeyValuePairs/KeyValuePairs';
 import {
   DAO,
@@ -6,6 +6,7 @@ import {
   ProposalTemplateTransaction,
   ProposalTemplateTransactionParameter,
 } from '../generated/schema';
+import getRandomId from './utils/id';
 
 export function handleValueUpdated(event: ValueUpdatedEvent): void {
   if (event.params.key == 'proposalTemplates') {
@@ -21,10 +22,8 @@ export function handleValueUpdated(event: ValueUpdatedEvent): void {
         if (proposalTemplatesJSON && proposalTemplatesJSON.isOk) {
           let proposalTemplatesEntitiesIds: Bytes[] = proposalTemplatesJSON.value
             .toArray()
-            .map<Bytes>((proposalTemplateJSON, proposalTemplateIndex) => {
-              let proposalTemplate = new ProposalTemplate(
-                Bytes.fromByteArray(crypto.keccak256(Bytes.fromI32(proposalTemplateIndex)))
-              );
+            .map<Bytes>(proposalTemplateJSON => {
+              let proposalTemplate = new ProposalTemplate(getRandomId(24));
               let proposalTemplateJSONObject = proposalTemplateJSON.toObject();
 
               let title = proposalTemplateJSONObject.get('title');
@@ -40,70 +39,62 @@ export function handleValueUpdated(event: ValueUpdatedEvent): void {
               let transactions = proposalTemplateJSONObject.get('transactions');
 
               if (transactions) {
-                let transactionEntitiesIds = transactions
-                  .toArray()
-                  .map<Bytes>((transactionJSON: JSONValue, transactionIndex) => {
-                    let transaction = new ProposalTemplateTransaction(
-                      Bytes.fromByteArray(crypto.keccak256(Bytes.fromI32(transactionIndex)))
+                let transactionEntitiesIds = transactions.toArray().map<Bytes>(transactionJSON => {
+                  let transaction = new ProposalTemplateTransaction(getRandomId(24));
+                  let transactionJSONObject = transactionJSON.toObject();
+
+                  let targetAddress = transactionJSONObject.get('targetAddress');
+                  if (targetAddress) {
+                    transaction.targetAddress = Bytes.fromByteArray(
+                      ByteArray.fromHexString(targetAddress.toString())
                     );
-                    let transactionJSONObject = transactionJSON.toObject();
+                  }
 
-                    let targetAddress = transactionJSONObject.get('targetAddress');
-                    if (targetAddress) {
-                      transaction.targetAddress = Bytes.fromByteArray(
-                        ByteArray.fromHexString(targetAddress.toString())
-                      );
+                  let transactionEthValue = transactionJSONObject.get('ethValue');
+                  if (transactionEthValue) {
+                    let ethValue = transactionEthValue.toObject().get('value');
+                    if (ethValue) {
+                      transaction.ethValue = ethValue.toString();
                     }
+                  }
 
-                    let transactionEthValue = transactionJSONObject.get('ethValue');
-                    if (transactionEthValue) {
-                      let ethValue = transactionEthValue.toObject().get('value');
-                      if (ethValue) {
-                        transaction.ethValue = ethValue.toString();
+                  let functionName = transactionJSONObject.get('functionName');
+                  if (functionName) {
+                    transaction.functionName = functionName.toString();
+                  }
+
+                  let parameters = transactionJSONObject.get('parameters');
+                  if (parameters) {
+                    let parametersEntitiesIds = parameters.toArray().map<Bytes>(parameterJSON => {
+                      let parameter = new ProposalTemplateTransactionParameter(getRandomId(24));
+                      let parameterJSONObject = parameterJSON.toObject();
+
+                      let signature = parameterJSONObject.get('signature');
+                      if (signature) {
+                        parameter.signature = signature.toString();
                       }
-                    }
 
-                    let functionName = transactionJSONObject.get('functionName');
-                    if (functionName) {
-                      transaction.functionName = functionName.toString();
-                    }
+                      let parameterValue = parameterJSONObject.get('value');
+                      if (parameterValue) {
+                        parameter.value = parameterValue.toString();
+                      } else {
+                        // Prevent storing both label and value
+                        let label = parameterJSONObject.get('label');
+                        if (label) {
+                          parameter.label = label.toString();
+                        }
+                      }
 
-                    let parameters = transactionJSONObject.get('parameters');
-                    if (parameters) {
-                      let parametersEntitiesIds = parameters
-                        .toArray()
-                        .map<Bytes>((parameterJSON, parameterIndex) => {
-                          let parameter = new ProposalTemplateTransactionParameter(
-                            Bytes.fromByteArray(crypto.keccak256(Bytes.fromI32(parameterIndex)))
-                          );
-                          let parameterJSONObject = parameterJSON.toObject();
+                      parameter.save();
+                      return parameter.id;
+                    });
 
-                          let signature = parameterJSONObject.get('signature');
-                          if (signature) {
-                            parameter.signature = signature.toString();
-                          }
+                    transaction.parameters = parametersEntitiesIds;
+                  }
 
-                          let parameterValue = parameterJSONObject.get('value');
-                          if (parameterValue) {
-                            parameter.value = parameterValue.toString();
-                          } else {
-                            // Prevent storing both label and value
-                            let label = parameterJSONObject.get('label');
-                            if (label) {
-                              parameter.label = label.toString();
-                            }
-                          }
-
-                          parameter.save();
-                          return parameter.id;
-                        });
-
-                      transaction.parameters = parametersEntitiesIds;
-                    }
-
-                    transaction.save();
-                    return transaction.id;
-                  });
+                  transaction.save();
+                  return transaction.id;
+                });
 
                 proposalTemplate.transactions = transactionEntitiesIds;
               }
