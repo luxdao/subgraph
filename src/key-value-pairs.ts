@@ -6,7 +6,6 @@ import {
   ProposalTemplateTransaction,
   ProposalTemplateTransactionParameter,
 } from '../generated/schema';
-import getRandomId from './utils/id';
 
 export function handleValueUpdated(event: ValueUpdatedEvent): void {
   if (event.params.key == 'proposalTemplates') {
@@ -20,87 +19,126 @@ export function handleValueUpdated(event: ValueUpdatedEvent): void {
       if (proposalTemplatesConfigFile) {
         let proposalTemplatesJSON = json.try_fromBytes(proposalTemplatesConfigFile);
         if (proposalTemplatesJSON && proposalTemplatesJSON.isOk) {
-          let proposalTemplatesEntitiesIds: Bytes[] = proposalTemplatesJSON.value
-            .toArray()
-            .map<Bytes>(proposalTemplateJSON => {
-              let proposalTemplate = new ProposalTemplate(getRandomId(24));
-              let proposalTemplateJSONObject = proposalTemplateJSON.toObject();
+          const proposalTemplatesEntitiesIds: Bytes[] = [];
+          const proposalTemplateJSONArray = proposalTemplatesJSON.value.toArray();
 
-              let title = proposalTemplateJSONObject.get('title');
-              if (title) {
-                proposalTemplate.title = title.toString();
-              }
+          for (
+            let proposalTemplateIndex = 0;
+            proposalTemplateIndex < proposalTemplateJSONArray.length;
+            proposalTemplateIndex++
+          ) {
+            let proposalTemplateJSON = proposalTemplateJSONArray[proposalTemplateIndex];
+            let proposalTemplate = new ProposalTemplate(
+              Bytes.fromUTF8(
+                event.transaction.hash.toHex() + '-' + proposalTemplateIndex.toString()
+              )
+            );
+            let proposalTemplateJSONObject = proposalTemplateJSON.toObject();
 
-              let description = proposalTemplateJSONObject.get('description');
-              if (description) {
-                proposalTemplate.description = description.toString();
-              }
+            let title = proposalTemplateJSONObject.get('title');
+            if (title) {
+              proposalTemplate.title = title.toString();
+            }
 
-              let transactions = proposalTemplateJSONObject.get('transactions');
+            let description = proposalTemplateJSONObject.get('description');
+            if (description) {
+              proposalTemplate.description = description.toString();
+            }
 
-              if (transactions) {
-                let transactionEntitiesIds = transactions.toArray().map<Bytes>(transactionJSON => {
-                  let transaction = new ProposalTemplateTransaction(getRandomId(24));
-                  let transactionJSONObject = transactionJSON.toObject();
+            let transactions = proposalTemplateJSONObject.get('transactions');
 
-                  let targetAddress = transactionJSONObject.get('targetAddress');
-                  if (targetAddress) {
-                    transaction.targetAddress = Bytes.fromByteArray(
-                      ByteArray.fromHexString(targetAddress.toString())
+            if (transactions) {
+              const transactionEntitiesIds: Bytes[] = [];
+              const transactionsJSONArray = transactions.toArray();
+
+              for (
+                let transactionIndex = 0;
+                transactionIndex < transactionsJSONArray.length;
+                transactionIndex++
+              ) {
+                let transactionJSON = transactionsJSONArray[transactionIndex];
+                let transaction = new ProposalTemplateTransaction(
+                  Bytes.fromUTF8(
+                    event.transaction.hash.toHex() +
+                      '-' +
+                      event.logIndex.toHex() +
+                      transactionIndex.toString()
+                  )
+                );
+                let transactionJSONObject = transactionJSON.toObject();
+
+                let targetAddress = transactionJSONObject.get('targetAddress');
+                if (targetAddress) {
+                  transaction.targetAddress = Bytes.fromByteArray(
+                    ByteArray.fromHexString(targetAddress.toString())
+                  );
+                }
+
+                let transactionEthValue = transactionJSONObject.get('ethValue');
+                if (transactionEthValue) {
+                  let ethValue = transactionEthValue.toObject().get('value');
+                  if (ethValue) {
+                    transaction.ethValue = ethValue.toString();
+                  }
+                }
+
+                let functionName = transactionJSONObject.get('functionName');
+                if (functionName) {
+                  transaction.functionName = functionName.toString();
+                }
+
+                let parameters = transactionJSONObject.get('parameters');
+                if (parameters) {
+                  let parametersEntitiesIds: Bytes[] = [];
+                  let parametersJSONArray = parameters.toArray();
+
+                  for (
+                    let parameterIndex = 0;
+                    parameterIndex < parametersJSONArray.length;
+                    parameterIndex++
+                  ) {
+                    let parameterJSON = parametersJSONArray[parameterIndex];
+                    let parameter = new ProposalTemplateTransactionParameter(
+                      Bytes.fromUTF8(
+                        event.transaction.hash.toHex() +
+                          event.transaction.from.toHex() +
+                          parameterIndex.toString()
+                      )
                     );
-                  }
+                    let parameterJSONObject = parameterJSON.toObject();
 
-                  let transactionEthValue = transactionJSONObject.get('ethValue');
-                  if (transactionEthValue) {
-                    let ethValue = transactionEthValue.toObject().get('value');
-                    if (ethValue) {
-                      transaction.ethValue = ethValue.toString();
+                    let signature = parameterJSONObject.get('signature');
+                    if (signature) {
+                      parameter.signature = signature.toString();
                     }
-                  }
 
-                  let functionName = transactionJSONObject.get('functionName');
-                  if (functionName) {
-                    transaction.functionName = functionName.toString();
-                  }
-
-                  let parameters = transactionJSONObject.get('parameters');
-                  if (parameters) {
-                    let parametersEntitiesIds = parameters.toArray().map<Bytes>(parameterJSON => {
-                      let parameter = new ProposalTemplateTransactionParameter(getRandomId(24));
-                      let parameterJSONObject = parameterJSON.toObject();
-
-                      let signature = parameterJSONObject.get('signature');
-                      if (signature) {
-                        parameter.signature = signature.toString();
+                    let parameterValue = parameterJSONObject.get('value');
+                    if (parameterValue) {
+                      parameter.value = parameterValue.toString();
+                    } else {
+                      // Prevent storing both label and value
+                      let label = parameterJSONObject.get('label');
+                      if (label) {
+                        parameter.label = label.toString();
                       }
+                    }
 
-                      let parameterValue = parameterJSONObject.get('value');
-                      if (parameterValue) {
-                        parameter.value = parameterValue.toString();
-                      } else {
-                        // Prevent storing both label and value
-                        let label = parameterJSONObject.get('label');
-                        if (label) {
-                          parameter.label = label.toString();
-                        }
-                      }
-
-                      parameter.save();
-                      return parameter.id;
-                    });
-
-                    transaction.parameters = parametersEntitiesIds;
+                    parameter.save();
+                    parametersEntitiesIds.push(parameter.id);
                   }
 
-                  transaction.save();
-                  return transaction.id;
-                });
+                  transaction.parameters = parametersEntitiesIds;
+                }
 
-                proposalTemplate.transactions = transactionEntitiesIds;
+                transaction.save();
+                transactionEntitiesIds.push(transaction.id);
               }
-              proposalTemplate.save();
-              return proposalTemplate.id;
-            });
+
+              proposalTemplate.transactions = transactionEntitiesIds;
+            }
+            proposalTemplate.save();
+            proposalTemplatesEntitiesIds.push(proposalTemplate.id);
+          }
 
           dao.proposalTemplates = proposalTemplatesEntitiesIds;
         } else {
