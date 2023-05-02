@@ -141,6 +141,7 @@ export function handleValueUpdated(event: ValueUpdatedEvent): void {
           }
 
           dao.proposalTemplates = proposalTemplatesEntitiesIds;
+          dao.save();
         } else {
           log.error('Failed to parse proposal templates JSON configuration: {}', [
             proposalTemplatesJSON.error.toString(),
