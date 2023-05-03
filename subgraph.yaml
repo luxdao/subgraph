@@ -1,6 +1,8 @@
 specVersion: 0.0.5
 schema:
   file: ./schema.graphql
+features:
+  - ipfsOnEthereumContracts
 dataSources:
   - kind: ethereum
     name: FractalRegistry
@@ -24,3 +26,25 @@ dataSources:
         - event: FractalSubDAODeclared(indexed address,indexed address)
           handler: handleFractalSubDAODeclared
       file: ./src/fractal-registry.ts
+  - kind: ethereum
+    name: KeyValuePairs
+    network: goerli
+    source:
+      address: "0x6533aB31297bF97a124F19aF46C98148153ff620"
+      abi: KeyValuePairs
+      startBlock: 8740453
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - ProposalTemplate
+        - ProposalTemplateTransaction
+        - ProposalTemplateTransactionParameter
+      abis:
+        - name: KeyValuePairs
+          file: ./abis/KeyValuePairs.json
+      eventHandlers:
+        - event: ValueUpdated(indexed address,string,string)
+          handler: handleValueUpdated
+      file: ./src/key-value-pairs.ts
