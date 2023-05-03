@@ -8,9 +8,9 @@ dataSources:
     name: FractalRegistry
     network: goerli
     source:
-      address: "0xc2427b5D77Bd319511672095E9a5A845AA80f979"
+      address: "0x6A82eD56cA60a6873f6098FcCcaDC5a10bc4ABb0"
       abi: FractalRegistry
-      startBlock: 8288290
+      startBlock: 8740444
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
