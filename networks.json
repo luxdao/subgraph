@@ -6,5 +6,13 @@
     "KeyValuePairs": {
       "address": "0x6533aB31297bF97a124F19aF46C98148153ff620"
     }
+  },
+  "sepolia": {
+    "FractalRegistry": {
+      "address": "0x81743f7b0A5814884Fece33940B63F1aB1aF1393"
+    },
+    "KeyValuePairs": {
+      "address": "0x9849eD05aD77147bc89c98EA6b6eE21E740c8DFF"
+    }
   }
 }
