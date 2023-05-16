@@ -1,0 +1,48 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+features:
+  - ipfsOnEthereumContracts
+dataSources:
+  - kind: ethereum
+    name: FractalRegistry
+    network: sepolia
+    source:
+      abi: FractalRegistry
+      address: "0x81743f7b0A5814884Fece33940B63F1aB1aF1393"
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - DAO
+      abis:
+        - name: FractalRegistry
+          file: ./abis/FractalRegistry.json
+      eventHandlers:
+        - event: FractalNameUpdated(indexed address,string)
+          handler: handleFractalNameUpdated
+        - event: FractalSubDAODeclared(indexed address,indexed address)
+          handler: handleFractalSubDAODeclared
+      file: ./src/fractal-registry.ts
+  - kind: ethereum
+    name: KeyValuePairs
+    network: sepolia
+    source:
+      abi: KeyValuePairs
+      address: "0x9849eD05aD77147bc89c98EA6b6eE21E740c8DFF"
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - ProposalTemplate
+        - ProposalTemplateTransaction
+        - ProposalTemplateTransactionParameter
+      abis:
+        - name: KeyValuePairs
+          file: ./abis/KeyValuePairs.json
+      eventHandlers:
+        - event: ValueUpdated(indexed address,string,string)
+          handler: handleValueUpdated
+      file: ./src/key-value-pairs.ts
