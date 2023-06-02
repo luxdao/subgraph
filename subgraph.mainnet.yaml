@@ -8,6 +8,7 @@ dataSources:
     source:
       abi: FractalRegistry
       address: "0x023BDAEFeDDDdd5B43aF125CAA8007a99A886Fd3"
+      startBlock: 17389302
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -29,6 +30,7 @@ dataSources:
     source:
       abi: KeyValuePairs
       address: "0x535B64f9Ef529Ac8B34Ac7273033bBE67B34f131"
+      startBlock: 17389311
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
