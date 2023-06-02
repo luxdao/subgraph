@@ -21,7 +21,7 @@
 - Authorize for deployment. `graph auth --studio <DEPLOY KEY>` You can get `<DEPLOY KEY>` from the Subgraph Studio:
   - [Subgraph Studio - Goerli Instance](https://thegraph.com/studio/subgraph/fractal-goerli/)
   - [Subgraph Studio - Sepolia Instance](https://thegraph.com/studio/subgraph/fractal-sepolia/)
-  - [Subgraph Studio - Mainnet Instance](https://thegraph.com/studio/subgraph/fractal/)
+  - [Subgraph Studio - Mainnet Instance](https://thegraph.com/studio/subgraph/fractal-mainnet/)
 - Actually, deploy `npm run deploy:<network>`. It will prompt you for version - make sure to fill this one with something meaningful and based on previous versioning convention (usually something like `vX.X.X-<patch-name>`)
 
 ## Adding network support
