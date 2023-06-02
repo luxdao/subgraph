@@ -4,10 +4,10 @@ schema:
 dataSources:
   - kind: ethereum
     name: FractalRegistry
-    network: sepolia
+    network: mainnet
     source:
       abi: FractalRegistry
-      address: "0x81743f7b0A5814884Fece33940B63F1aB1aF1393"
+      address: "0x023BDAEFeDDDdd5B43aF125CAA8007a99A886Fd3"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -28,7 +28,7 @@ dataSources:
     network: sepolia
     source:
       abi: KeyValuePairs
-      address: "0x9849eD05aD77147bc89c98EA6b6eE21E740c8DFF"
+      address: "0x535B64f9Ef529Ac8B34Ac7273033bBE67B34f131"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
