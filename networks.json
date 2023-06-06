@@ -1,4 +1,12 @@
 {
+  "mainnet": {
+    "FractalRegistry": {
+      "address": "0x023BDAEFeDDDdd5B43aF125CAA8007a99A886Fd3"
+    },
+    "KeyValuePairs": {
+      "address": "0x535B64f9Ef529Ac8B34Ac7273033bBE67B34f131"
+    }
+  },
   "goerli": {
     "FractalRegistry": {
       "address": "0xc2427b5D77Bd319511672095E9a5A845AA80f979"
