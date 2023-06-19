@@ -22,5 +22,13 @@
     "KeyValuePairs": {
       "address": "0x9849eD05aD77147bc89c98EA6b6eE21E740c8DFF"
     }
+  },
+  "polygon": {
+    "FractalRegistry": {
+      "address": "0xfE5950B4975a19679be7c31a0A03D626d237f37C"
+    },
+    "KeyValuePairs": {
+      "address": "0x68e3b985B93eA0a10178c7ae919299699559Aaab"
+    }
   }
 }
