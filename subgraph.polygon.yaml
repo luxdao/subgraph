@@ -4,7 +4,7 @@ schema:
 dataSources:
   - kind: ethereum
     name: FractalRegistry
-    network: polygon
+    network: matic
     source:
       abi: FractalRegistry
       address: "0xfE5950B4975a19679be7c31a0A03D626d237f37C"
@@ -26,7 +26,7 @@ dataSources:
       file: ./src/fractal-registry.ts
   - kind: ethereum
     name: KeyValuePairs
-    network: polygon
+    network: matic
     source:
       abi: KeyValuePairs
       address: "0x68e3b985B93eA0a10178c7ae919299699559Aaab"
