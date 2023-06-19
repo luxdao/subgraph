@@ -8,6 +8,7 @@
     "deploy:goerli": "graph deploy --studio fractal-goerli subgraph.goerli.yaml",
     "deploy:sepolia": "graph deploy --studio fractal-sepolia subgraph.sepolia.yaml",
     "deploy:mainnet": "graph deploy --studio fractal-mainnet subgraph.mainnet.yaml",
+    "deploy:polygon": "graph deploy --studio fractal-polygon subgraph.polygon.yaml",
     "create-local": "graph create --node http://localhost:8020/ fractal-goerli",
     "remove-local": "graph remove --node http://localhost:8020/ fractal-goerli",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fractal-goerli",
