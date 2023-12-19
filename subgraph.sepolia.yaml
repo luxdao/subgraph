@@ -7,7 +7,8 @@ dataSources:
     network: sepolia
     source:
       abi: FractalRegistry
-      address: "0x81743f7b0A5814884Fece33940B63F1aB1aF1393"
+      address: "0x4791FF2a6E84F012402c0679C12Cb1d9260450A6"
+      startBlock: 4916634
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -28,7 +29,8 @@ dataSources:
     network: sepolia
     source:
       abi: KeyValuePairs
-      address: "0x9849eD05aD77147bc89c98EA6b6eE21E740c8DFF"
+      address: "0xC0E08581b70cF745770154f3E9a9A8890198b024"
+      startBlock: 4916643
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
