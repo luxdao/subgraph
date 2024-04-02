@@ -7,6 +7,7 @@
     "build": "graph build",
     "deploy:goerli": "graph deploy --studio fractal-goerli subgraph.goerli.yaml",
     "deploy:sepolia": "graph deploy --studio fractal-sepolia subgraph.sepolia.yaml",
+    "deploy:base-sepolia": "graph deploy --studio epic-fractal-test-base-sepolia subgraph.base-sepolia.yaml",
     "deploy:mainnet": "graph deploy --studio fractal-mainnet subgraph.mainnet.yaml",
     "deploy:polygon": "graph deploy --studio fractal-polygon subgraph.polygon.yaml",
     "create-local": "graph create --node http://localhost:8020/ fractal-goerli",
@@ -17,8 +18,8 @@
     "lint:fix": "eslint src/ --fix"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "0.48.0",
-    "@graphprotocol/graph-ts": "0.29.3"
+    "@graphprotocol/graph-cli": "^0.69.1",
+    "@graphprotocol/graph-ts": "^0.34.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.47.0",
