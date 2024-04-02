@@ -23,6 +23,14 @@
       "address": "0x9849eD05aD77147bc89c98EA6b6eE21E740c8DFF"
     }
   },
+  "base-testnet": {
+    "FractalRegistry": {
+      "address": "0x4300bD5a54B9EC135e7c028079bb62D42496A533"
+    },
+    "KeyValuePairs": {
+      "address": "0x69d113C61B0B9B77BBEd0f48181a13794d94A964"
+    }
+  },
   "polygon": {
     "FractalRegistry": {
       "address": "0xfE5950B4975a19679be7c31a0A03D626d237f37C"
