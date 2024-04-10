@@ -24,6 +24,6 @@ export function handleValueUpdated(event: ValueUpdatedEvent): void {
       dao.save();
     }
   } else {
-    log.warning('Unkown key: {}', [event.params.key]);
+    log.warning('Unknown key: {}', [event.params.key]);
   }
 }
