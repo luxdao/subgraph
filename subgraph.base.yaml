@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: FractalRegistry
-    network: goerli
+    network: base
     source:
-      address: "0x6A82eD56cA60a6873f6098FcCcaDC5a10bc4ABb0"
       abi: FractalRegistry
-      startBlock: 8740444
+      address: "0x023bdaefeddddd5b43af125caa8007a99a886fd3"
+      startBlock: 12996617
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -26,11 +26,11 @@ dataSources:
       file: ./src/fractal-registry.ts
   - kind: ethereum
     name: KeyValuePairs
-    network: goerli
+    network: base
     source:
-      address: "0x6533aB31297bF97a124F19aF46C98148153ff620"
       abi: KeyValuePairs
-      startBlock: 8740453
+      address: "0x535b64f9ef529ac8b34ac7273033bbe67b34f131"
+      startBlock: 12996645
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
