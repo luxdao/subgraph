@@ -1,0 +1,46 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: FractalRegistry
+    network: base
+    source:
+      abi: FractalRegistry
+      address: "0x023bdaefeddddd5b43af125caa8007a99a886fd3"
+      startBlock: 12996617
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - DAO
+      abis:
+        - name: FractalRegistry
+          file: ./abis/FractalRegistry.json
+      eventHandlers:
+        - event: FractalNameUpdated(indexed address,string)
+          handler: handleFractalNameUpdated
+        - event: FractalSubDAODeclared(indexed address,indexed address)
+          handler: handleFractalSubDAODeclared
+      file: ./src/fractal-registry.ts
+  - kind: ethereum
+    name: KeyValuePairs
+    network: base
+    source:
+      abi: KeyValuePairs
+      address: "0x535b64f9ef529ac8b34ac7273033bbe67b34f131"
+      startBlock: 12996645
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - DAO
+      abis:
+        - name: KeyValuePairs
+          file: ./abis/KeyValuePairs.json
+      eventHandlers:
+        - event: ValueUpdated(indexed address,string,string)
+          handler: handleValueUpdated
+      file: ./src/key-value-pairs.ts
