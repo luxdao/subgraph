@@ -10,6 +10,7 @@
     "deploy:mainnet": "graph deploy --studio fractal-mainnet subgraph.mainnet.yaml",
     "deploy:polygon": "graph deploy --studio fractal-polygon subgraph.polygon.yaml",
     "deploy:sepolia": "graph deploy --studio fractal-sepolia subgraph.sepolia.yaml",
+    "deploy:optimism": "graph deploy --studio fractal-optimism subgraph.optimism.yaml",
     "test": "graph test",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix"
