@@ -3,7 +3,7 @@
     "node": true,
     "es2021": true
   },
-  "extends": ["plugin:import/recommended", "airbnb-typescript/base"],
+  "extends": ["plugin:import/recommended", "airbnb-typescript/base", "prettier"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     // required for "type-aware linting"
@@ -25,20 +25,6 @@
     "@typescript-eslint/comma-dangle": "off",
     "indent": "off",
     "@typescript-eslint/indent": "off",
-    // prettier config
-    "prettier/prettier": [
-      1,
-      {
-        "printWidth": 100,
-        "endOfLine": "auto",
-        "tabWidth": 2,
-        "useTabs": false,
-        "singleQuote": true,
-        "semi": true,
-        "arrowParens": "avoid",
-        "singleAttributePerLine": true
-      }
-    ],
     "import/order": [
       "error",
       {
