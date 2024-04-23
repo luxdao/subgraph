@@ -13,14 +13,14 @@ export function handleValueUpdated(event: ValueUpdatedEvent): void {
       dao.proposalTemplatesHash = event.params.value;
       dao.save();
     }
-  } else if (event.params.key == 'snapshotURL') {
+  } else if (event.params.key == 'snapshotENS') {
     let dao = DAO.load(event.params.theAddress);
     if (dao) {
-      log.info('Processing Snapshot URL for DAO: {}, the URL is: {}', [
+      log.info('Processing Snapshot ENS for DAO: {}, the ENS is: {}', [
         event.params.theAddress.toHexString(),
         event.params.value,
       ]);
-      dao.snapshotURL = event.params.value;
+      dao.snapshotENS = event.params.value;
       dao.save();
     }
   } else {

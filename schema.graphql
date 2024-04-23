@@ -5,5 +5,5 @@ type DAO @entity(immutable: false) {
   name: String
   hierarchy: [DAO!]!
   proposalTemplatesHash: String # IPFS Hash
-  snapshotURL: String
+  snapshotENS: String
 }
