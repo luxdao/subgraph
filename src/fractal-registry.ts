@@ -25,6 +25,10 @@ export function handleFractalNameUpdated(event: FractalNameUpdatedEvent): void {
 
 export function handleFractalSubDAODeclared(event: FractalSubDAODeclaredEvent): void {
   let subDAO = loadOrCreateDAO(event.params.subDAOAddress);
+  if (subDAO.parentAddress !== null) {
+    return;
+  }
+
   subDAO.parentAddress = event.params.parentDAOAddress;
   subDAO.save();
 
