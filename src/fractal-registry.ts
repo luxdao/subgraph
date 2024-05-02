@@ -33,9 +33,6 @@ export function handleFractalSubDAODeclared(event: FractalSubDAODeclaredEvent): 
   subDAO.save();
 
   const parentDAO = loadOrCreateDAO(event.params.parentDAOAddress);
-  const hierarchy = parentDAO.hierarchy;
-  hierarchy.push(subDAO.id);
-  parentDAO.hierarchy = hierarchy;
-
+  parentDAO.hierarchy = [...parentDAO.hierarchy, subDAO.id];
   parentDAO.save();
 }
