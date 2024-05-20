@@ -1,7 +1,7 @@
 {
   "name": "fractal-subgraph",
   "license": "UNLICENSED",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "codegen:base": "graph codegen subgraph.base.yaml",
     "codegen:base-sepolia": "graph codegen subgraph.base-sepolia.yaml",
