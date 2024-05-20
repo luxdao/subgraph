@@ -1,21 +1,8 @@
-import { Bytes } from '@graphprotocol/graph-ts';
 import {
   FractalNameUpdated as FractalNameUpdatedEvent,
   FractalSubDAODeclared as FractalSubDAODeclaredEvent,
 } from '../generated/FractalRegistry/FractalRegistry';
-import { DAO } from '../generated/schema';
-
-const loadOrCreateDAO = (address: Bytes): DAO => {
-  const existingDao = DAO.load(address); // Using address as ID
-  if (existingDao) {
-    return existingDao;
-  }
-
-  const newDao = new DAO(address);
-  newDao.address = address; // But also keep address field on DAO entity in case we would want to use something else as ID
-  newDao.hierarchy = [];
-  return newDao;
-};
+import { loadOrCreateDAO } from './shared';
 
 export function handleFractalNameUpdated(event: FractalNameUpdatedEvent): void {
   const dao = loadOrCreateDAO(event.params.daoAddress);
