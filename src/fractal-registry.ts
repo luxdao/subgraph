@@ -6,32 +6,33 @@ import {
 import { DAO } from '../generated/schema';
 
 const loadOrCreateDAO = (address: Bytes): DAO => {
-  let dao = DAO.load(address); // Using address as ID
-  if (!dao) {
-    dao = new DAO(address);
-    dao.address = address; // But also keep address field on DAO entity in case we would want to use something else as ID
-    dao.hierarchy = [];
+  const existingDao = DAO.load(address); // Using address as ID
+  if (existingDao) {
+    return existingDao;
   }
 
-  return dao;
+  const newDao = new DAO(address);
+  newDao.address = address; // But also keep address field on DAO entity in case we would want to use something else as ID
+  newDao.hierarchy = [];
+  return newDao;
 };
 
 export function handleFractalNameUpdated(event: FractalNameUpdatedEvent): void {
-  let dao = loadOrCreateDAO(event.params.daoAddress);
+  const dao = loadOrCreateDAO(event.params.daoAddress);
   dao.name = event.params.daoName;
-
   dao.save();
 }
 
 export function handleFractalSubDAODeclared(event: FractalSubDAODeclaredEvent): void {
-  let subDAO = loadOrCreateDAO(event.params.subDAOAddress);
+  const subDAO = loadOrCreateDAO(event.params.subDAOAddress);
+  if (subDAO.parentAddress !== null) {
+    return;
+  }
+
   subDAO.parentAddress = event.params.parentDAOAddress;
   subDAO.save();
 
-  let parentDAO = loadOrCreateDAO(event.params.parentDAOAddress);
-  let hierarchy = parentDAO.hierarchy;
-  hierarchy.push(subDAO.id);
-  parentDAO.hierarchy = hierarchy;
-
+  const parentDAO = loadOrCreateDAO(event.params.parentDAOAddress);
+  parentDAO.hierarchy = [...parentDAO.hierarchy, subDAO.id];
   parentDAO.save();
 }
