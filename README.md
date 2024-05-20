@@ -22,10 +22,19 @@
 
 [Subgraph Docs](https://thegraph.com/docs/en/deploying/deploying-a-subgraph-to-studio/#deploying-a-subgraph-to-subgraph-studio)
 
-- Generate static build
-  `npm run build -f subgraph.<network>.yaml`
-- Authorize for deployment. `graph auth --studio <DEPLOY KEY>` You can get `<DEPLOY KEY>` from the Subgraph Studio.
-- Actually deploy with `npm run deploy:<network>`. It will prompt you for version - make sure to fill this one with something meaningful and based on previous versioning convention (usually something like `vX.X.X-<patch-name>`)
+- Authorize for deployment. You can get `<DEPLOY KEY>` from the Subgraph Studio.
+  ```sh
+  npx graph auth --studio <DEPLOY KEY>
+  ```
+- Generate static build.
+  ```sh
+  npm run codegen:sepolia
+  npm run build:sepolia
+  ```
+- Do the Deployment. It will prompt you for version.
+  ```sh
+  npm run deploy:sepolia
+  ```
 
 ## Architecture
 
