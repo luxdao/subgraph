@@ -1,7 +1,7 @@
 {
   "name": "fractal-subgraph",
   "license": "UNLICENSED",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "scripts": {
     "codegen:base": "graph codegen subgraph.base.yaml",
     "codegen:mainnet": "graph codegen subgraph.mainnet.yaml",
