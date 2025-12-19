@@ -1,7 +1,7 @@
 {
-  "name": "fractal-subgraph",
-  "license": "UNLICENSED",
-  "version": "0.2.0",
+  "name": "@luxdao/subgraph",
+  "license": "MIT",
+  "version": "1.0.0",
   "scripts": {
     "codegen:base": "graph codegen subgraph.base.yaml",
     "codegen:mainnet": "graph codegen subgraph.mainnet.yaml",
@@ -36,5 +36,12 @@
     "eslint-plugin-prettier": "^4.2.1",
     "matchstick-as": "0.5.0",
     "prettier": "^2.7.1"
-  }
+  },
+  "description": "Lux DAO Subgraph for The Graph Protocol",
+  "author": "Lux Partners Limited",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luxdao/subgraph.git"
+  },
+  "homepage": "https://lux.vote"
 }
