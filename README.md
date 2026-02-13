@@ -3,7 +3,7 @@
 ## Development
 
 - Clone repo
-  `git clone https://github.com/decent-dao/fractal-subgraph`
+  `git clone https://github.com/dao/fractal-subgraph`
 - Install dependencies
   `npm install`
 - Generate types and entities (this will generate types and entities based on the schema and handlers defined in the subgraph.yaml file)
